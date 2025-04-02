@@ -1,37 +1,25 @@
-import { useState } from "react";
 import { Button, Container, Form, Row } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import "./App.css";
 
 function App() {
-  const [formData, setFormData] = useState({
-    name: "",
-    duedate: "",
-    priority: "",
-    iscompleted: false,
-  });
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+    const { register, handleSubmit,reset } = useForm();
+    const onSubmit = (data) => {
+      console.log(data);
+      reset();
+    };
   return (
     <>
       <Container>
         <Row>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group controlId="Name">
               <Form.Label>Nom </Form.Label>
               <Form.Control
                 type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
+                {...register("name", {
+                  required: "Nom requis",
+                })}
                 placeholder="Nom"
                 required
               />
@@ -40,18 +28,17 @@ function App() {
               <Form.Label>Date </Form.Label>
               <Form.Control
                 type="date"
-                name="duedate"
-                value={formData.duedate}
-                onChange={handleChange}
+                {...register("date", {
+                  required: "date requise",
+                })}
                 required
               />
             </Form.Group>
             <Form.Group controlId="Priority">
               <Form.Label>Priorité </Form.Label>
               <Form.Select
-                name="priority"
-                value={formData.priority}
-                onChange={handleChange}
+                {...register("priority", {
+                })}
               >
                 <option value="basse">Basse</option>
                 <option value="moyenne">Moyenne</option>
@@ -61,10 +48,8 @@ function App() {
             <Form.Group controlId="IsCompleted">
               <Form.Check
                 type="checkbox"
-                name="iscompleted"
-                checked={formData.iscompleted}
-                onChange={handleChange}
-                label="Compléter ?"
+                {...register("ispriority", {
+                })}
               />
             </Form.Group>
             <Button type="submit">soumettre</Button>
