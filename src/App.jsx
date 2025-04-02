@@ -3,11 +3,24 @@ import { useForm } from "react-hook-form";
 import "./App.css";
 
 function App() {
-    const { register, handleSubmit,reset } = useForm();
-    const onSubmit = (data) => {
-      console.log(data);
-      reset();
-    };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      date: "",
+      priority: "basse",
+      isCompleted: false,
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    reset();
+  };
   return (
     <>
       <Container>
@@ -20,9 +33,8 @@ function App() {
                 {...register("name", {
                   required: "Nom requis",
                 })}
-                placeholder="Nom"
-                required
               />
+              {errors.name && <p>{errors.name.message}</p>}
             </Form.Group>
             <Form.Group controlId="Date">
               <Form.Label>Date </Form.Label>
@@ -31,26 +43,19 @@ function App() {
                 {...register("date", {
                   required: "date requise",
                 })}
-                required
               />
+              {errors.date && <p>{errors.date.message}</p>}
             </Form.Group>
             <Form.Group controlId="Priority">
               <Form.Label>Priorité </Form.Label>
-              <Form.Select
-                {...register("priority", {
-                })}
-              >
+              <Form.Select {...register("priority")}>
                 <option value="basse">Basse</option>
                 <option value="moyenne">Moyenne</option>
                 <option value="elevee">Elevée</option>
               </Form.Select>
             </Form.Group>
             <Form.Group controlId="IsCompleted">
-              <Form.Check
-                type="checkbox"
-                {...register("ispriority", {
-                })}
-              />
+              <Form.Check type="checkbox" {...register("isCompleted")} />
             </Form.Group>
             <Button type="submit">soumettre</Button>
           </Form>
