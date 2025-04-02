@@ -10,9 +10,10 @@ function App() {
     iscompleted: false,
   });
   const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
   const handleSubmit = (e) => {
@@ -24,7 +25,7 @@ function App() {
       <Container>
         <Row>
           <Form onSubmit={handleSubmit}>
-            <Form.Group>
+            <Form.Group controlId="Name">
               <Form.Label>Nom </Form.Label>
               <Form.Control
                 type="text"
@@ -35,7 +36,7 @@ function App() {
                 required
               />
             </Form.Group>
-            <Form.Group>
+            <Form.Group controlId="Date">
               <Form.Label>Date </Form.Label>
               <Form.Control
                 type="date"
@@ -45,7 +46,7 @@ function App() {
                 required
               />
             </Form.Group>
-            <Form.Group>
+            <Form.Group controlId="Priority">
               <Form.Label>Priorité </Form.Label>
               <Form.Select
                 name="priority"
@@ -57,7 +58,7 @@ function App() {
                 <option value="elevee">Elevée</option>
               </Form.Select>
             </Form.Group>
-            <Form.Group>
+            <Form.Group controlId="IsCompleted">
               <Form.Check
                 type="checkbox"
                 name="iscompleted"
